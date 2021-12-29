@@ -19,3 +19,8 @@ RUN GOBIN=/tmp/ go install github.com/go-delve/delve/cmd/dlv@master
 RUN go install golang.org/x/tools/gopls@latest
 
 RUN mv /tmp/dlv $GOPATH/bin/dlv-dap
+
+RUN curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
+RUN $HOME/.cargo/bin/cargo install exa
+COPY .bash_aliases /root/
+RUN echo '. .bash_aliases' >> /root/.bashrc

@@ -23,4 +23,4 @@ RUN mv /tmp/dlv $GOPATH/bin/dlv-dap
 RUN curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
 RUN $HOME/.cargo/bin/cargo install exa
 COPY .bash_aliases /root/
-RUN echo '. .bash_aliases' >> /root/.bashrc
+RUN echo '. $HOME/.bash_aliases' >> /root/.bashrc

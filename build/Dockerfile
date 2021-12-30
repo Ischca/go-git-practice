@@ -17,6 +17,7 @@ RUN go get \
 
 RUN GOBIN=/tmp/ go install github.com/go-delve/delve/cmd/dlv@master
 RUN go install golang.org/x/tools/gopls@latest
+RUN go install github.com/spf13/cobra/cobra@latest
 
 RUN mv /tmp/dlv $GOPATH/bin/dlv-dap
 

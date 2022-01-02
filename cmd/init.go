@@ -6,13 +6,14 @@ package cmd
 
 import (
 	"fmt"
+	"wyag/internal"
 
 	"github.com/spf13/cobra"
 )
 
 // initCmd represents the init command
 var initCmd = &cobra.Command{
-	Use:   "init",
+	Use:   "init [path]",
 	Short: "A brief description of your command",
 	Long: `A longer description that spans multiple lines and likely contains examples
 and usage of using your command. For example:
@@ -20,8 +21,24 @@ and usage of using your command. For example:
 Cobra is a CLI library for Go that empowers applications.
 This application is a tool to generate the needed files
 to quickly create a Cobra application.`,
+	Args:                  cobra.MaximumNArgs(1),
+	DisableFlagsInUseLine: true,
+	DisableFlagParsing:    true,
 	Run: func(cmd *cobra.Command, args []string) {
 		fmt.Println("init called")
+
+		var path string
+		if len(args) == 1 {
+			path = args[0]
+		} else {
+			path = "./"
+		}
+
+		err := internal.RepoCreate(path)
+		if err != nil {
+			fmt.Println(err)
+			return
+		}
 	},
 }
 

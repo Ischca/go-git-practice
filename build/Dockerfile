@@ -25,3 +25,5 @@ RUN curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
 RUN $HOME/.cargo/bin/cargo install exa
 COPY .bash_aliases /root/
 RUN echo '. $HOME/.bash_aliases' >> /root/.bashrc
+
+RUN ln -sf  /usr/share/zoneinfo/Asia/Tokyo /etc/localtime

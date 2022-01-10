@@ -37,7 +37,11 @@ func NewGitRepostitory(path string, force bool) (repo *GitRepository, err error)
 	cf := repo.repoFile(&confFileName, false)
 
 	if result, _ := isExists(cf); result {
-		conf, err := ini.Load(cf)
+		bytes, err := os.ReadFile(*cf)
+		if err != nil {
+			return nil, err
+		}
+		conf, err := ini.Load(bytes)
 		if err != nil {
 			return nil, err
 		}

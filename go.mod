@@ -4,6 +4,7 @@ go 1.17
 
 require (
 	github.com/spf13/cobra v1.3.0
+	github.com/yookoala/realpath v1.0.0
 	gopkg.in/ini.v1 v1.66.2
 )
 

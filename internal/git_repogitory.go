@@ -6,6 +6,7 @@ import (
 	"os"
 	"path/filepath"
 
+	"github.com/yookoala/realpath"
 	"gopkg.in/ini.v1"
 )
 
@@ -206,4 +207,36 @@ func (repo GitRepository) writeFile(fileName *string, ioFunc func(f *os.File)) (
 	}()
 	ioFunc(f)
 	return err
+}
+
+func (repo GitRepository) repoFind(path string, required bool) (*GitRepository, error) {
+	real, err := realpath.Realpath(path)
+	if err != nil {
+		return nil, err
+	}
+
+	gitdir := filepath.Join(real, ".git")
+	if result := isDir(&gitdir); result {
+		return NewGitRepostitory(path, false)
+	}
+
+	// If we haven't returned, recurse in parent, if w
+	parent, err := realpath.Realpath(filepath.Join(path, ".."))
+	if err != nil {
+		return nil, err
+	}
+
+	if parent == path {
+		// Bottom case
+		// os.path.join("/", "..") == "/":
+		// If parent==path, then path is root.
+		if required {
+			return nil, errors.New("No git directory.")
+		} else {
+			return nil, nil
+		}
+	}
+
+	// Recursive case
+	return repo.repoFind(parent, required)
 }
